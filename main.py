@@ -115,6 +115,8 @@ class AjaxHandler(tornado.web.RequestHandler):
             filename = str(gcd_filename)
             if not filename.startswith('/') and self.i3data:
                 filename = os.path.join(self.i3data,filename)
+            if not filename.startswith(self.i3data):
+                raise Exception('unauthorize filename')
             ret = geo.parseGCD(filename)
         except Exception as e:
             logging.error('error parsing GCD: %r',e,exc_info=True)
@@ -134,6 +136,8 @@ class AjaxHandler(tornado.web.RequestHandler):
             filename = str(i3_filename)
             if not filename.startswith('/') and self.i3data:
                 filename = os.path.join(self.i3data,filename)
+            if not filename.startswith(self.i3data):
+                raise Exception('unauthorize filename')
             ret = i3.parseI3(filename,str(frame_type),keys=keys,nframes=1000)
         except Exception as e:
             logging.error('error parsing I3: %r',e,exc_info=True)

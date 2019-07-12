@@ -21,8 +21,6 @@ def getposition(pos):
 cache = {}
 
 def parseI3(filename,frame_type='P',keys=None,nframes=1000000,start=0):
-    if not filename.startswith('/home/dschultz/event_viewer_data'):
-	raise Exception('Unauthorized filename')
     if filename in cache:
         if os.path.getmtime(filename) <= cache[filename]['mtime']:
             # use cached data
