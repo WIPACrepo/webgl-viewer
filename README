@@ -1,0 +1,33 @@
+# webgl-viewer
+webgl viewer for icecube events. used by masterclass
+
+## Instructions
+
+In the main directory, we have these files:
+
+geo.py - Takes GCD files and makes geometry json.
+i3.py - Takes i3 files and makes json frames.
+main.py - Runs Tornado web server to serve up the static and dynamic content.
+startup.sh - Sets the python environment and runs main.py.  This makes
+    reference to an env directory, which lives in /home/dschultz/html_viewer
+
+The templates directory contains the static templates for the site. You really
+only need to look at base.html and main.html.  I should delete alt.html, since
+that was for another 3d library.
+
+The static directory contains all static files for the site.  Anything marked
+with pre3d was for a different 3d engine that I'm not using anymore (was too
+slow).  
+
+Other contents:
+
+textures directory - contains a few sprites for WebGL drawing of the DOMs.  I
+    was experimenting a bit with different looks and settled on the sphere.png (I
+    think).
+custom.js - contains a launcher to start the ajax loading when the html has loaded
+jquery.cookie.js - [not mine] a jquery cookie interaction plugin
+jquery.mousewheel.js - [not mine] a jquery plugin to get mousewheel events
+robots.txt - a standard robots file to prevent bots from looking here
+Three.js - [not mine] the 3d library I currently use.  should be easy to google for it.
+viewer.js - contains some helper functions and the actual viewer.
+ 

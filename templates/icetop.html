@@ -1,0 +1,59 @@
+{% extends "base_viewer.html" %}
+
+{% block title %}IceTop{% end %}
+
+{% block body %}
+<div id="icetop"></div>
+<div id="tooltip" class="tooltip" style="opacity:0"></div>
+<div>
+  <svg id="controlPanel" width="725" height="32" style="opacity:0">
+    <g transform="translate(10,0)" class="controlPanel">
+      <polygon id="prevButton" points="0,15 15,4 15,26" class="userHandle"></polygon>
+      <rect id="groupMarker" x="30" y="5" width="20" height="20"></rect>
+      <text x="55" y="22" fill="#444">Event</text>
+      <text id="eventNumber" x="130" y="22" fill="#444">???</text>
+      <polygon id="nextButton" points="0,4 15,15 0,26" class="userHandle" transform="translate(185,0)"></polygon>
+      <g id="movieButton" transform="translate(235, 0)">
+        <rect width="105" height="30" class="buttonRect"></rect>
+        <text x="10" y="22" class="buttonText">Movie</text>
+      </g>
+      <g id="saveButton" transform="translate(370, 0)">
+        <rect width="159" height="30" class="buttonRect"></rect>
+        <text x="10" y="22" class="buttonText">Save data</text>
+      </g>
+  </g>
+  </svg>
+  <br>
+  <svg id="IceTopCanvas" width="800" height="550">
+    <g id="dotLayer"></g>
+    <g id="handleLayer"></g>
+
+    <g id="overlayLayer" transform="translate(120, 100)" fill="white">
+      <text x="90" y="45" style="font:45px serif" fill="gray">Pick a data group</text>
+    </g>
+  </svg>
+  <br>
+  <svg id="guessPanel" width="800" height="100" style="opacity:0;margin:1em auto">
+    <text x="10" y="40" style="font:25px serif" fill="gray">Take a guess! The event is...</text>
+    <g id="realButton" transform="translate(390, 0)">
+      <rect width="160" height="30" class="buttonRect"></rect>
+      <text x="10" y="24" class="buttonText">Real</text>
+    </g>
+    <g id="simButton" transform="translate(390, 37)">
+      <rect width="160" height="30" class="buttonRect"></rect>
+      <text x="10" y="24" class="buttonText">Simulated</text>
+    </g>
+    <text id="nGuesses" x="600" y="24" fill="orange" style="font:bold 25px serif">0 guesses</text>
+    <text id="pCorrect" x="600" y="60" fill="#e70" style="font:bold 25px serif;opacity:0">XX % correct</text>
+  </svg>
+</div>
+{% end %}
+
+{% block scriptloader_viewer %}
+$script(["d3.min","icetop.min"],function(){
+    load_css(domain+'/static/style.css');
+    load_css(domain+'/static/viewer.css');
+    load_css(domain+'/static/icetop.css');
+    icetop(domain,'#icetop');
+});
+{% end %}

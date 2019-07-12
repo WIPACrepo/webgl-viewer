@@ -1,0 +1,13 @@
+{% extends "base_viewer.html" %}
+
+{% block title %}Background vs Signal{% end %}
+
+{% block body %}<div id='background_signal' style='width:950px;height:800px'></div>{% end %}
+
+{% block scriptloader_viewer %}
+$script(["background_signal"],function(){
+    load_css(domain+'/static/style.css');
+    load_css(domain+'/static/viewer.css');
+    background_signal(domain,'#background_signal');
+});
+{% end %}

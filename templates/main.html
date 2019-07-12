@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}i3 Viewer{% end %}
+
+{% block headscripts %}
+<link rel="stylesheet" type="text/css" href="/static/style.css" />
+{% end %}
+
+{% block body %}
+
+<h1>IceCube Web Event Viewer</h1>
+
+<h3>Please select an option:</h3>
+
+<div id='main' style="text-align:center">
+
+<a class="main_button" href="/quiz">Particle Quiz</a>
+<a class="main_button" href="/training">Veto Training</a>
+<a class="main_button" href="/hese3">High Energy Starting Event Search: Info</a>
+<a class="main_button" href="/hese_all_28">High Energy Starting Event Search: All on one page</a>
+<a class="main_button" href="/background_signal">Background vs Signal</a>
+<a class="main_button" href="/icetop">IceTop</a>
+<a class="main_button" href="/speed_of_light">Speed of Light</a>
+
+</div>{% end %}
+
+{% block extrascripts %}
+{% end %}

@@ -1,0 +1,13 @@
+{% extends "base_viewer.html" %}
+
+{% block title %}HESE - All 28 Events{% end %}
+
+{% block body %}<div id='hese_all' style='width:950px;height:800px'></div>{% end %}
+
+{% block scriptloader_viewer %}
+$script(["hese_all"],function(){
+    load_css(domain+'/static/style.css');
+    load_css(domain+'/static/viewer.css');
+    hese_all(domain,'#hese_all');
+});
+{% end %}

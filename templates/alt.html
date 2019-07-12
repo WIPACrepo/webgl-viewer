@@ -1,0 +1,13 @@
+{% extends "base_viewer.html" %}
+
+{% block title %}i3 Viewer{% end %}
+
+{% block body %}<div id='main' style='width:950px;height:800px'></div>{% end %}
+
+{% block scriptloader_viewer %}
+$script(["viewer","viewer-wrapper","custom"],function(){
+    load_css(domain+'/static/style.css');
+    load_css(domain+'/static/viewer.css');
+    custom(domain,'#main');
+});
+{% end %}

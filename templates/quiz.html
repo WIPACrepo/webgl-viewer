@@ -1,0 +1,13 @@
+{% extends "base_viewer.html" %}
+
+{% block title %}Event Quiz{% end %}
+
+{% block body %}<div id='quiz' style='width:950px;height:800px'></div>{% end %}
+
+{% block scriptloader_viewer %}
+$script(["quiz"],function(){
+    load_css(domain+'/static/style.css');
+    load_css(domain+'/static/viewer.css');
+    quiz(domain,'#quiz');
+});
+{% end %}

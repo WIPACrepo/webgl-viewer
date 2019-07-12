@@ -1,0 +1,13 @@
+{% extends "base_viewer.html" %}
+
+{% block title %}High Energy Starting Event{% end %}
+
+{% block body %}<div id='hese' style='width:950px;height:800px'></div>{% end %}
+
+{% block scriptloader_viewer %}
+$script(["hese"],function(){
+    load_css(domain+'/static/style.css');
+    load_css(domain+'/static/viewer.css');
+    hese(domain,'#hese');
+});
+{% end %}

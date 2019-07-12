@@ -1,0 +1,106 @@
+@import url(https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css);
+
+.he_neutrinos-filter-header, .he_neutrinos-preview-header,
+.he_neutrinos-preview-subheader, .he_neutrinos-filter-type-header {
+    text-align: center;
+}
+.he_neutrinos-filter-type-header {
+    margin-bottom: 0;
+}
+.he_neutrinos-filter-type {
+    text-align: center;
+}
+.he_neutrinos-filter-type-option {
+    display: inline-block;
+    border: 1px solid black;
+    background: #c99;
+    padding: .5em;
+    margin: 1em;
+    cursor: pointer;
+    text-transform: capitalize;
+}
+.he_neutrinos-filter-type-option.selected {
+    background: #9c9;
+}
+.he_neutrinos-preview-header {
+    margin: 2em 0 0;
+}
+.he_neutrinos-preview-body {
+    text-align: center;
+}
+.he_neutrinos-preview-event-wrapper {
+    display: none;
+    margin: 1em;
+}
+
+.he_neutrinos-preview-event-wrapper.selected {
+    display: inline-block;
+}
+.he_neutrinos-preview-event-wrapper .name,
+.he_neutrinos-preview-event-wrapper .date,
+.he_neutrinos-preview-event-wrapper .energy {
+    text-align: center;
+}
+.he_neutrinos-preview-event-wrapper .name {
+    text-transform: uppercase;
+}
+.he_neutrinos-preview-event-wrapper .event {
+    cursor: pointer;
+}
+
+.viewer-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 10;
+}
+.viewer-overlay.active {
+    display: block;
+}
+.viewer-header {
+    text-align: center;
+    width: 760px;
+    margin: auto;
+    padding: 1em 20px;
+    background: rgb(38,38,38);
+    color: #fcfcfc;
+}
+
+#he_neutrinos-viewer {
+    height: 800px;
+    width: 800px;
+    margin: auto;
+    background: black;
+}
+
+.he_neutrinos-filter-date .slider, .he_neutrinos-filter-energy .slider {
+    margin: .5em 2em .5em 1em;
+    background: #c99;
+    height: 1.5em;
+}
+.he_neutrinos-filter-date .slider .ui-slider-range,
+.he_neutrinos-filter-energy .slider .ui-slider-range {
+    background: #9c9;
+}
+.he_neutrinos-filter-date .slider .ui-slider-handle,
+.he_neutrinos-filter-energy .slider .ui-slider-handle {
+    border-color: #999;
+    height: 2em;
+    width: 2em;
+    cursor: pointer;
+}
+.he_neutrinos-filter-date .slider-value,
+.he_neutrinos-filter-energy .slider-value {
+    border: 0;
+    text-align: center;
+    display: block;
+    margin: auto;
+}
+
+#loader {
+    display: none;
+}

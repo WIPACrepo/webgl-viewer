@@ -1,0 +1,12 @@
+TODO:
+
+more file/frame info (run, subrun, frame #, event id)
+
+select multiple fits (present available options for each frame)
+
+start with data warehouse browser, select file to open it in viewer
+
+a way to mark interesting events, a way to easily share a link to it (update the url on each frame update)
+
+(advanced) launch a limited python shell next to the viewer, or link to an ipython notebook with the file open and set to the same frame.
+

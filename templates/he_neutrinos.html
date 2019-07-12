@@ -1,0 +1,14 @@
+{% extends "base_viewer.html" %}
+
+{% block title %}High Energy Events in IceCube{% end %}
+
+{% block body %}<div id='he_neutrinos'></div>{% end %}
+
+{% block scriptloader_viewer %}
+$script(["he_neutrinos"],function(){
+    load_css(domain+'/static/style.css');
+    load_css(domain+'/static/viewer.css');
+    load_css(domain+'/static/he_neutrinos/style.css');
+    he_neutrinos(domain,'#he_neutrinos');
+});
+{% end %}

@@ -1,0 +1,13 @@
+{% extends "base_viewer.html" %}
+
+{% block title %}Veto Training{% end %}
+
+{% block body %}<div id='training' style='width:950px;height:800px'></div>{% end %}
+
+{% block scriptloader_viewer %}
+$script(["training"],function(){
+    load_css(domain+'/static/style.css');
+    load_css(domain+'/static/viewer.css');
+    training(domain,'#training');
+});
+{% end %}

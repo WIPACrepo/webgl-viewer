@@ -1,0 +1,154 @@
+div.viewer {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+div.charge_hist {
+  height:30px;
+  vertical-align: bottom;
+  overflow: hidden;
+}
+div.charge_hist div.hist_data {
+  display:inline-block;
+  background-color: #008080;
+  width: 1px;
+  vertical-align: bottom;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+div.charge_hist div.hist_data.filler {
+  height: 100%;
+  background-color: #f9f9f9;
+}
+div.timeline {
+  cursor: default;
+  background-color: #EDEDED;
+  height: 48px;
+  margin: 0 0 4px;
+}
+div.timeline div.left_col {
+  display: inline-block;
+  height: 46px;
+  font-family: arial;
+  font-size: 11pt;
+  vertical-align: top;
+}
+div.timeline div.left_col div.color_text {
+  text-align: right;
+  font-size: 10pt;
+}
+div.timeline div.center_col {
+  display: inline-block;
+  height: 46px;
+  margin: 0 1px;
+  background-color: #f9f9f9;
+}
+div.timeline div.pulse_choose {
+  height: 25px;
+  margin: 2px 0;
+}
+div.timeline div.pulse_choose.disabled {
+  margin: 0;
+}
+div.timeline div.pulse_choose select {
+  padding: 3px 0;
+  max-width: 150px;
+  min-width: 100px;
+}
+div.timeline div.colorline {
+  height: 14px;
+  margin-bottom: 2px;
+  cursor: inherit;
+}
+div.timeline div.colorline div.color_data{
+  display:inline-block;
+  vertical-align: top;
+  height: 100%;
+  width: 1px;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: inherit;
+}
+div.timeline div.controls {
+  position: absolute;
+  height: 44px;
+  overflow: hidden;
+}
+div.timeline div.controls div.color_marker {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius:9px;
+  border: 1px solid black;
+  top: 20px;
+  cursor: inherit;
+}
+div.timeline div.controls div.time_marker {
+  position: absolute;
+  width: 8px;
+  height: 100%;
+  border: none;
+  right: 0px;
+  text-align:center;
+  cursor: inherit;
+}
+div.timeline div.controls div.time_marker div.inner_time_marker {
+  background-color: #878787;
+  height:100%;
+  width:2px;
+  margin:auto;
+  cursor: inherit;
+}
+div.timeline div.controls div.time_number {
+  position: absolute;
+  width: 40px;
+  height: 10px;
+  border: none;
+  right: 4px;
+  text-align:right;
+  color: #080808;
+  cursor: inherit;
+}
+div.timeline div.controls {
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  cursor: grab;
+  cursor: pointer;
+}
+div.timeline div.controls.active {
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: grabbing;
+}
+div.timeline div.controls div.begin_color {
+  left: 0px;
+  background-color: #ff0000;
+}
+div.timeline div.controls div.end_color {
+  right: 0px;
+  background-color: #0000ff;
+}
+div.movie_control button.play_pause, 
+div.movie_control button.stop {
+    margin: 0 0.5em;
+    padding: 0.1em 0.4em;
+}
+div.movie_control button.play_pause {
+    width: 75px;
+}
+div.drawing {
+    position: relative;
+}
+div.artist  {
+    position: absolute;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 12pt;
+}
+div.artist.accumulated_charge {
+    top: 0;
+    right: 2px;
+}

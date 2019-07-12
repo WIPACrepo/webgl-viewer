@@ -1,0 +1,13 @@
+{% extends "base_viewer.html" %}
+
+{% block title %}Speed of Light Calculation{% end %}
+
+{% block body %}<div id='speed_of_light' style='width:950px;height:800px'></div>{% end %}
+
+{% block scriptloader_viewer %}
+$script(["speed_of_light"],function(){
+    load_css(domain+'/static/style.css');
+    load_css(domain+'/static/viewer.css');
+    speed_of_light(domain,'#speed_of_light');
+});
+{% end %}
