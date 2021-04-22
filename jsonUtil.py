@@ -73,7 +73,7 @@ class binary_converter:
 class bytearray_converter:
     @staticmethod
     def dumps(obj,name=None):
-        return base64.b64encode(str(obj))
+        return base64.b64encode(obj)
     @staticmethod
     def loads(obj,name=None):
         return bytearray(base64.b64decode(obj))
@@ -81,7 +81,7 @@ class bytearray_converter:
 class bytearray_list_converter:
     @staticmethod
     def dumps(obj,name=None):
-        return [base64.b64encode(str(x)) for x in obj.data]
+        return [base64.b64encode(x) for x in obj.data]
     @staticmethod
     def loads(obj,name=None):
         return [bytearray(base64.b64decode(x)) for x in obj]
@@ -89,7 +89,7 @@ class bytearray_list_converter:
 class superdst_converter:
     @staticmethod
     def dumps(obj,name=None):
-        return base64.b64encode(str(obj.data))
+        return str(base64.b64encode(obj.data))
     @staticmethod
     def loads(obj,name=None):
         return SuperDST(base64.b64decode(obj))
@@ -97,7 +97,7 @@ class superdst_converter:
 class recopulseseriesmapmask_converter:
     @staticmethod
     def dumps(obj,name=None):
-        return base64.b64encode(str(obj.data))
+        return base64.b64encode(obj.data)
     @staticmethod
     def loads(obj,name=None):
         return RecoPulseSeriesMapMask(base64.b64decode(obj))
@@ -105,7 +105,7 @@ class recopulseseriesmapmask_converter:
 class recopulseseriesmapunion_converter:
     @staticmethod
     def dumps(obj,name=None):
-        return base64.b64encode(str(obj.data))
+        return base64.b64encode(obj.data)
     @staticmethod
     def loads(obj,name=None):
         return RecoPulseSeriesMapUnion(base64.b64decode(obj))
@@ -157,10 +157,11 @@ JSONConverters = {
 }
 
 def objToJSON(obj):
-    if isinstance(obj,(dict,list,tuple,str,unicode,int,long,float,bool)) or obj is None:
+    if isinstance(obj,(dict,list,tuple,bytes,str,int,float,bool)) or obj is None:
         return obj
     else:
         name = obj.__class__.__name__
+        logging.info('try packing class %s', name)
         if name in JSONConverters:
             return {'__jsonclass__':[name,JSONConverters[name].dumps(obj)]}
         else:
@@ -189,20 +190,20 @@ def recursive_unicode(obj):
     Supports lists, tuples, and dictionaries.
     """
     if isinstance(obj, dict):
-        return dict((recursive_unicode(k), recursive_unicode(v)) for (k, v) in obj.iteritems())
+        return dict((recursive_unicode(k), recursive_unicode(v)) for (k, v) in obj.items())
     elif isinstance(obj, list):
         return list(recursive_unicode(i) for i in obj)
     elif isinstance(obj, tuple):
         return tuple(recursive_unicode(i) for i in obj)
-    elif isinstance(obj, bytes):
-        return obj.decode("utf-8")
+    #elif isinstance(obj, bytes):
+    #    return obj.decode("utf-8")
     else:
         return obj
 
 
 def json_encode(value):
     """JSON-encodes the given Python object."""
-    return json.dumps(recursive_unicode(value),default=objToJSON,separators=(',',':')).replace("</", "<\\/")
+    return json.dumps(value,default=objToJSON,separators=(',',':')).replace("</", "<\\/")
 
 def json_decode(value):
     """Returns Python objects for the given JSON string."""

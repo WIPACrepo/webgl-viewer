@@ -18,11 +18,11 @@ def getposition(pos):
 
 cache = {}
 
-def parseGCD(filename):
+async def parseGCD(filename):
     if filename in cache:
         if os.path.getmtime(filename) <= cache[filename]['mtime']:
             # use cached data
-            print 'cache hit for',filename
+            print('cache hit for',filename)
             return cache[filename]['output']
     
     i3file = dataio.I3File(filename)
@@ -39,7 +39,7 @@ def parseGCD(filename):
     output = {}
     strings = set()
     for om in geomap.keys():
-        #print 'processing %s'%om
+        #print('processing %s'%om)
         if om.string not in strings:
             strings.add(om.string)
         value = geomap[om]
@@ -56,7 +56,7 @@ def parseGCD(filename):
             output[om.string][om.om][om.pmt] = ret
         except:
             raise Exception('error with %s'%om)
-    print strings
+    print(strings)
     # add to cache
     cache[filename] = {'mtime':os.path.getmtime(filename),
                        'output':output
@@ -72,6 +72,6 @@ if __name__ == '__main__':
         raise Exception('need a GCD filename as an argument')
     ret = parseGCD(sys.argv[1])
     
-    print ret[1]
+    print(ret[1])
     
     json.dump(ret,open('GCD.json','w'))

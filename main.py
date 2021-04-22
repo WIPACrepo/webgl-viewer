@@ -33,10 +33,9 @@ class AjaxHandler(tornado.web.RequestHandler):
     def initialize(self, pool, i3data=None):
         self.pool = pool
         self.i3data = i3data
-        logging.warn('i3data = %s',self.i3data)
+        logging.warning('i3data = %s',self.i3data)
 
-    @tornado.web.asynchronous
-    def get(self):
+    async def get(self):
         # is jsonp?
         callback = self.get_argument('callback',False)
         if callback is not False:
@@ -51,7 +50,7 @@ class AjaxHandler(tornado.web.RequestHandler):
         ret = {'ret':False}
         if function == 'getGCD':
             gcd_filename = self.get_argument('gcd_filename')
-            self.pool.apply_async(partial(self.getGCD,gcd_filename,write_callback=writer,complete_callback=self.finish))
+            await self.getGCD(gcd_filename,write_callback=writer,complete_callback=self.finish)
             return
         elif function == 'getI3':
             i3_filename = self.get_argument('i3_filename')
@@ -59,7 +58,7 @@ class AjaxHandler(tornado.web.RequestHandler):
             keys = self.get_argument('keys',None)
             if keys:
                 keys = keys.split(',')
-            self.pool.apply_async(partial(self.getI3,i3_filename,frame_type,keys,write_callback=writer,complete_callback=self.finish))
+            await self.getI3(i3_filename,frame_type,keys,write_callback=writer,complete_callback=self.finish)
             return
         else:
             raise Exception('function invalid')
@@ -67,8 +66,7 @@ class AjaxHandler(tornado.web.RequestHandler):
         writer(json_encode(ret))
         self.finish()
     
-    @tornado.web.asynchronous
-    def post(self):
+    async def post(self):
         # is jsonp?
         callback = self.get_argument('callback',False)
         if callback is not False:
@@ -85,7 +83,7 @@ class AjaxHandler(tornado.web.RequestHandler):
         if body['function'] == 'getGCD':
             if 'gcd_filename' not in body:
                 raise Exception('gcd_filename not in input')
-            self.pool.apply_async(partial(self.getGCD,body['gcd_filename'],write_callback=writer,complete_callback=self.finish))
+            await self.getGCD(body['gcd_filename'],write_callback=writer,complete_callback=self.finish)
             return
         elif body['function'] == 'getI3':
             if 'i3_filename' not in body:
@@ -95,7 +93,7 @@ class AjaxHandler(tornado.web.RequestHandler):
             keys = None
             if 'keys' in body:
                 keys = body['keys']
-            self.pool.apply_async(partial(self.getI3,body['i3_filename'],body['frame_type'],keys,write_callback=writer,complete_callback=self.finish))
+            await self.getI3(body['i3_filename'],body['frame_type'],keys,write_callback=writer,complete_callback=self.finish)
             return
         else:
             raise Exception('function invalid')
@@ -109,7 +107,7 @@ class AjaxHandler(tornado.web.RequestHandler):
         self.write(json_encode({'ret':None,'error':[status_code]}))
         self.finish()
     
-    def getGCD(self,gcd_filename,write_callback,complete_callback):
+    async def getGCD(self,gcd_filename,write_callback,complete_callback):
         logging.info('getGCD for %r',gcd_filename)
         try:
             filename = str(gcd_filename)
@@ -117,19 +115,15 @@ class AjaxHandler(tornado.web.RequestHandler):
                 filename = os.path.join(self.i3data,filename)
             if not filename.startswith(self.i3data):
                 raise Exception('unauthorize filename')
-            ret = geo.parseGCD(filename)
+            ret = await geo.parseGCD(filename)
         except Exception as e:
             logging.error('error parsing GCD: %r',e,exc_info=True)
-            def cb():
-                write_callback(json_encode({'ret':None,'error':[400]}))
-                complete_callback()
+            write_callback(json_encode({'ret':None,'error':[400]}))
         else:
-            def cb():
-                write_callback(json_encode({'ret':True,'data':ret}))
-                complete_callback()
-        tornado.ioloop.IOLoop.instance().add_callback(cb)
+            write_callback(json_encode({'ret':True,'data':ret}))
+        complete_callback()
 
-    def getI3(self,i3_filename,frame_type,keys,write_callback,complete_callback):
+    async def getI3(self,i3_filename,frame_type,keys,write_callback,complete_callback):
         logging.info('getI3 for %r',i3_filename)
         logging.info('get only the keys: %r',keys)
         try:
@@ -138,17 +132,14 @@ class AjaxHandler(tornado.web.RequestHandler):
                 filename = os.path.join(self.i3data,filename)
             if not filename.startswith(self.i3data):
                 raise Exception('unauthorize filename')
-            ret = i3.parseI3(filename,str(frame_type),keys=keys,nframes=1000)
+            ret = await i3.parseI3(filename,str(frame_type),keys=keys,nframes=1000)
         except Exception as e:
             logging.error('error parsing I3: %r',e,exc_info=True)
-            def cb():
-                write_callback(json_encode({'ret':None,'error':[400]}))
-                complete_callback()
+            write_callback(json_encode({'ret':None,'error':[400]}))
+            complete_callback()
         else:
-            def cb():
-                write_callback(json_encode({'ret':True,'data':ret}))
-                complete_callback()
-        tornado.ioloop.IOLoop.instance().add_callback(cb)
+            write_callback(json_encode({'ret':True,'data':ret}))
+            complete_callback()
 
         
 def logger(handler):
@@ -157,7 +148,7 @@ def logger(handler):
     elif handler.get_status() < 500:
         log_method = logging.warning
     else:
-        log_method = module.logger.error
+        log_method = logging.error
     request_time = 1000.0 * handler.request.request_time()
     log_method("%d %s %.2fms", handler.get_status(),
                handler._request_summary(), request_time)
@@ -179,8 +170,8 @@ def main(options,files):
         if options.open_browser:
             Thread(target=start_browser,args=(options.browser,url)).start()
         else:
-            print 'open browser and go to'
-            print url
+            print('open browser and go to')
+            print(url)
     pool = ThreadPool(10)
 
     application = tornado.web.Application([
@@ -251,7 +242,7 @@ if __name__ == '__main__':
     if options.daemon:
         if files:
             raise Exception('cannot specifiy --daemon and files at the same time')
-        print 'making daemon'
+        print('making daemon')
         import os
         import daemon
         kwargs = {'working_directory':os.getcwd()}
@@ -260,7 +251,7 @@ if __name__ == '__main__':
             kwargs['stdout'] = f
             kwargs['stderr'] = f
         with daemon.DaemonContext(**kwargs):
-            print 'running daemon'
+            print('running daemon')
             main(options,files)
     else:
         main(options,files)

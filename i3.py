@@ -20,11 +20,11 @@ def getposition(pos):
 
 cache = {}
 
-def parseI3(filename,frame_type='P',keys=None,nframes=1000000,start=0):
+async def parseI3(filename,frame_type='P',keys=None,nframes=1000000,start=0):
     if filename in cache:
         if os.path.getmtime(filename) <= cache[filename]['mtime']:
             # use cached data
-            print 'cache hit for',filename
+            print('cache hit for',filename)
             return cache[filename]['output']
 
     stream = None
@@ -36,7 +36,7 @@ def parseI3(filename,frame_type='P',keys=None,nframes=1000000,start=0):
     i3file = dataio.I3File(filename)
 
     output = []
-    for i in xrange(start+nframes):
+    for i in range(start+nframes):
         if i3file.more():
             try:
                 frame = i3file.pop_frame(stream)
@@ -45,18 +45,18 @@ def parseI3(filename,frame_type='P',keys=None,nframes=1000000,start=0):
         else:
             break
         if not frame:
-            #print 'not frame'
+            #print('not frame')
             break
         if i < start:
-            #print 'continue'
+            #print('continue')
             continue
-        #print 'running on frame',i
+        #print('running on frame',i)
         try:
             ret = ParseFrame(frame,keys).process()
             if ret is not None:
                 output.append(ret)
         except Exception as e:
-            print e
+            print(e)
             raise
 
     # add to cache
@@ -221,6 +221,6 @@ if __name__ == '__main__':
         raise Exception('need an I3 filename as an argument')
     ret = parseI3(sys.argv[1],nframes=10,start=0)
 
-    print ret[0].keys()
+    print(ret[0].keys())
 
     open('i3.json','w').write(jsonUtil.json_encode(ret))
